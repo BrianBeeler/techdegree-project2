@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       //  },
 
 
-      startIndex = 0;
-      endIndex = 5;
+      startIndex = ( (page-1) * 9);
+      endIndex = startIndex + 8
 
       studentList = document.querySelector(".student-list")
       studentList.innerHTML = "";
@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
 
       studentList.insertAdjacentHTML('beforeend',htmlContents);
+      addPagination(list, page);
    }
 
 
@@ -73,7 +74,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       Create the `addPagination` function
       This function will create and insert/append the elements needed for the pagination buttons
    */
-   let addPagination = (list) => {
+   let addPagination = (list, activePage) => {
 
       let numButtons = Math.ceil( list.length / 9 );
       let linkList = document.querySelector("ul.link-list");
@@ -87,7 +88,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
 
       // Select the first li element, add the class active to it.
-      linkList.querySelector("li:first-child")
+      linkList.querySelector(`li:nth-child(${activePage}) > button`)
          .classList.add("active");
       
       // Add an event listener to all of the buttons
@@ -95,7 +96,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
       for (i = 0; i < buttons.length; i++) {
          buttons[i].addEventListener("click", (e) => {
             console.log("Button: ", e.target.textContent);
-         })
+            pageNumber = +e.target.textContent;   
+            showPage(window.data, pageNumber);     
+         });
       }
 
 
@@ -103,8 +106,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
    // Call functions
-   showPage(window.data);
-   addPagination(window.data);
+   showPage(window.data, 1);
+   //addPagination(window.data, 1);
 
 })
 
