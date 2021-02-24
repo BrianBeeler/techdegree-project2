@@ -68,21 +68,43 @@ document.addEventListener('DOMContentLoaded', (event) => {
       studentList.insertAdjacentHTML('beforeend',htmlContents);
    }
 
-   console.log( showPage(window.data) );
-
 
    /*
       Create the `addPagination` function
       This function will create and insert/append the elements needed for the pagination buttons
    */
-   let addPagination = () => {
+   let addPagination = (list) => {
+
+      let numButtons = Math.ceil( list.length / 9 );
+      let linkList = document.querySelector("ul.link-list");
+      linkList.innerHTML = "";
+      for ( i = 1 ; i <= numButtons; i++ ) {
+         linkList.innerHTML += `
+            <li>
+               <button type="button">${i}</button>
+            </li>
+         `
+      }
+
+      // Select the first li element, add the class active to it.
+      linkList.querySelector("li:first-child")
+         .classList.add("active");
+      
+      // Add an event listener to all of the buttons
+      let buttons = linkList.querySelectorAll("li button");
+      for (i = 0; i < buttons.length; i++) {
+         buttons[i].addEventListener("click", (e) => {
+            console.log("Button: ", e.target.textContent);
+         })
+      }
 
 
    }
 
 
    // Call functions
-
+   showPage(window.data);
+   addPagination(window.data);
 
 })
 
