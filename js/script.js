@@ -104,6 +104,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
    }
 
+   let AddSearchBar = () => {
+      // get header element
+      // append search component
+      // add change event to search input
+      // function when change is triggered
+         // filter window.data, save to variable
+         // run showPage with filtered data
+   }
+
 
    // Call functions
    showPage(window.data, 1);
