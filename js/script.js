@@ -105,6 +105,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
    }
 
    let AddSearchBar = () => {
+
+      let header = document.querySelector(".header");
+
+      header.innerHTML += 
+      `
+         <label for="search" class="student-search">
+            <input id="search" placeholder="Search by name...">
+            <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+         </label>
+      `;
+
+      header.querySelector("#search").addEventListener("keyup", (e) => {
+         console.log("triggered")
+         searchTerm = e.target.value.toLowerCase();
+         console.log("Search term:", searchTerm);
+         filteredData = window.data.filter((curr, index, array) => {
+            let name = curr.name.first + curr.name.last;
+            name = name.toLowerCase();
+            return name.includes(searchTerm);
+         });
+         showPage(filteredData,1);
+      });
+
+ 
+
       // get header element
       // append search component
       // add change event to search input
@@ -117,7 +142,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
    // Call functions
    showPage(window.data, 1);
    //addPagination(window.data, 1);
-
+   AddSearchBar();
 })
 
 
