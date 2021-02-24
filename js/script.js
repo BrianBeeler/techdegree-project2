@@ -12,13 +12,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
       Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
    */
 
-
+   // Global constant - amount it items to be shown at a time;
+   const itemsPerPage = 9;   
 
    /*
       Create the `showPage` function
       This function will create and insert/append the elements needed to display a "page" of nine students
    */
    let showPage = (list, page) => {
+
+      /**
+       * getHTML function returns the template for each piece of data
+       * @param {*} i - the index of the list, for the template being generated
+       */
 
       let getHTML = i => {
          let html = `<li class="student-item cf">
@@ -34,38 +40,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
          return html;
       }
 
-      // name: {
-      //    title: "Mr",
-      //    first: "Duane",
-      //    last: "Soto",
-      //  },
-      //  email: "duane.soto@example.com",
-      //  registered: {
-      //    date: "09-15-2002",
-      //    age: 18,
-      //  },
-      //  picture: {
-      //    large: "https://randomuser.me/api/portraits/men/53.jpg",
-      //    medium: "https://randomuser.me/api/portraits/med/men/53.jpg",
-      //    thumbnail: "https://randomuser.me/api/portraits/thumb/men/53.jpg",
-      //  },
+      // Next two lines get starting and ending index of data to show
+      // based on the page being shown   
+      startIndex = ( (page-1) * itemsPerPage);
+      endIndex = startIndex + itemsPerPage - 1;
 
-
-      startIndex = ( (page-1) * 9);
-      endIndex = startIndex + 8
-
+      // Get student list and clear its contents
       studentList = document.querySelector(".student-list")
       studentList.innerHTML = "";
 
+      // Iterate through data and append html for each falling within
+      // the appropriate range of indexes.
       let htmlContents = '';
-
       for (i = 0; i < list.length; i++) {
          if (i >= startIndex && i <= endIndex) {
             htmlContents += getHTML(i);
          }
       }
 
+      // Put the html template in the studentsList element
       studentList.insertAdjacentHTML('beforeend',htmlContents);
+      
+      // Whenever the main display page is created, recreate the buttons
+      
+      // Note: it might be ineficient to ask the dom to recreate the pages section
+      // every time the main display updates. Consider revising page shows
+      // any flickering or slowness
+
       addPagination(list, page);
    }
 
@@ -76,7 +77,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
    */
    let addPagination = (list, activePage) => {
 
-      let numButtons = Math.ceil( list.length / 9 );
+      // Add page buttons based on the number of items in the list
+      let numButtons = Math.ceil( list.length / itemsPerPage );
       let linkList = document.querySelector("ul.link-list");
       linkList.innerHTML = "";
       for ( i = 1 ; i <= numButtons; i++ ) {
@@ -87,15 +89,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
          `
       }
 
-      // Select the first li element, add the class active to it.
+      // For whatever page is active, set that button to have the class "active"
       linkList.querySelector(`li:nth-child(${activePage}) > button`)
          .classList.add("active");
       
-      // Add an event listener to all of the buttons
+      // Add an event listener to each of the buttons
       let buttons = linkList.querySelectorAll("li button");
       for (i = 0; i < buttons.length; i++) {
          buttons[i].addEventListener("click", (e) => {
-            console.log("Button: ", e.target.textContent);
             pageNumber = +e.target.textContent;   
             showPage(window.data, pageNumber);     
          });
@@ -104,7 +105,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
    }
 
-   let AddSearchBar = () => {
+   let addSearchBar = () => {
 
       let header = document.querySelector(".header");
 
@@ -116,7 +117,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
          </label>
       `;
 
-      header.querySelector("#search").addEventListener("keyup", (e) => {
+      header.querySelector("#search").addEventListener(["keyup"], (e) => {
          console.log("triggered")
          searchTerm = e.target.value.toLowerCase();
          console.log("Search term:", searchTerm);
@@ -141,8 +142,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
    // Call functions
    showPage(window.data, 1);
-   //addPagination(window.data, 1);
-   AddSearchBar();
+   // Note: addPagination moved to within "showPage"
+   // function in order for updates to happen automatically
+   // See line 66 for a note about efficiency.
+   addSearchBar();
 })
 
 
