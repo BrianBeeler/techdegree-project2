@@ -3,8 +3,10 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 
-// Array of student objects
-const data = [
+// Load data after html loads
+document.addEventListener('DOMContentLoaded', e => {
+  // Array of student objects
+  window.data = [
   {
     name: {
       title: "Miss",
@@ -719,4 +721,9 @@ const data = [
       thumbnail: "https://randomuser.me/api/portraits/thumb/men/48.jpg",
     },
   },
-];
+  ];
+
+  console.log(data);
+})
+
+
