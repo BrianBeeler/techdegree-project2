@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
          let html = `<li class="student-item cf">
                         <div class="student-details">
                            <img class="avatar" src=${list[i].picture.large} alt="Profile Picture">
-                           <h3>${list[i].firstName} ${list[i].lastName}</h3>
+                           <h3>${list[i].name.first} ${list[i].name.last}</h3>
                            <span class="email">${list[i].email}</span>
                         </div>
                         <div class="joined-details">
@@ -57,15 +57,15 @@ document.addEventListener('DOMContentLoaded', (event) => {
       studentList = document.querySelector(".student-list")
       studentList.innerHTML = "";
 
-      let htmlContents = [];
+      let htmlContents = '';
 
       for (i = 0; i < list.length; i++) {
          if (i >= startIndex && i <= endIndex) {
-            htmlContents.push(getHTML(i));
+            htmlContents += getHTML(i);
          }
       }
 
-      return htmlContents;
+      studentList.insertAdjacentHTML('beforeend',htmlContents);
    }
 
    console.log( showPage(window.data) );
