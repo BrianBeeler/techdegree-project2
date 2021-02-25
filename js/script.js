@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
    // Global constant - amount it items to be shown at a time;
    const itemsPerPage = 9;   
-
+   let filteredData = window.data;
    /*
       Create the `showPage` function
       This function will create and insert/append the elements needed to display a "page" of nine students
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
       // Get student list and clear its contents
       studentList = document.querySelector(".student-list")
-      studentList.innerHTML = "";
+      studentList.innerHTML = '';
 
       // Iterate through data and append html for each falling within
       // the appropriate range of indexes.
@@ -56,6 +56,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
          if (i >= startIndex && i <= endIndex) {
             htmlContents += getHTML(i);
          }
+    
+      }
+
+      // No results found
+      if (!htmlContents) {
+         htmlContents = `<p>No Results Found</p>`;
       }
 
       // Put the html template in the studentsList element
@@ -98,7 +104,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       for (i = 0; i < buttons.length; i++) {
          buttons[i].addEventListener("click", (e) => {
             pageNumber = +e.target.textContent;   
-            showPage(window.data, pageNumber);     
+            showPage(filteredData, pageNumber);     
          });
       }
 
@@ -141,7 +147,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
    // Call functions
-   showPage(window.data, 1);
+   showPage(filteredData, 1);
    // Note: addPagination moved to within "showPage"
    // function in order for updates to happen automatically
    // See line 66 for a note about efficiency.
@@ -151,3 +157,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
 
+// TO-DO: There is a bug where changing pages does invalidates filtering
