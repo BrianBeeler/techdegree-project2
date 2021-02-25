@@ -96,9 +96,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
       }
 
       // For whatever page is active, set that button to have the class "active"
-      linkList.querySelector(`li:nth-child(${activePage}) > button`)
-         .classList.add("active");
-      
+      let activeButton = linkList.querySelector(`li:nth-child(${activePage}) > button`)
+      if (activeButton) {
+         activeButton.classList.add("active");
+      }   
+
       // Add an event listener to each of the buttons
       let buttons = linkList.querySelectorAll("li button");
       for (i = 0; i < buttons.length; i++) {
@@ -124,9 +126,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
       `;
 
       header.querySelector("#search").addEventListener(["keyup"], (e) => {
-         console.log("triggered")
+   
          searchTerm = e.target.value.toLowerCase();
-         console.log("Search term:", searchTerm);
          filteredData = window.data.filter((curr, index, array) => {
             let name = curr.name.first + curr.name.last;
             name = name.toLowerCase();
